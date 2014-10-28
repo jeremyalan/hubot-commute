@@ -1,3 +1,23 @@
+# Description:
+#   Hubot plugin to calculate drive time based on current traffic conditions, using the Google Directions API.
+#
+# Dependencies:
+#   "underscore": "1.3.3"
+#
+# Configuration:
+#
+# Commands:
+#   hubot get me home - Displays drive times for the current user
+#   hubot set location origin <address> - Sets the origin location for all users
+#   hubot set location home <address> - Set the home location for the sender
+#   hubot show location origin - Displays the origin location for all users
+#   hubot show location home - Displays the home location for the sender
+#
+# Notes:
+#
+# Author:
+#   jeremyalan
+
 _ = require('underscore')
 
 module.exports = (robot) ->
@@ -16,7 +36,7 @@ module.exports = (robot) ->
       msg.reply 'Where do you live? (@hubot set location home <address>)'
       return
 
-    robot.http("https://maps.googleapis.com/maps/api/directions/json?origin=#{ origin_location }&destination=#{ user_location }")
+    robot.http("https://maps.googleapis.com/maps/api/directions/json?origin=#{ origin_location }&destination=#{ user_location }&departure_time=#{ Date.now() }")
       .get() (err, res, body) ->
         try
           data = JSON.parse(body)
